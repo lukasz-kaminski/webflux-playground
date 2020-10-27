@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<h2>Messages from db:</h2>
+<ul id="messages" style="list-style: none">
+</ul>
+<hr />
+<h2>Jokes</h2>
+<ul id="jokes" style="list-style: none">
+</ul>
+
+<script type="text/javascript">
+    const evtSource = new EventSource("/messages");
+    evtSource.onmessage = function(event) {
+        const newElement = document.createElement("li");
+        const eventList = document.getElementById("messages");
+        var response = JSON.parse(event.data);
+        newElement.innerHTML = "[" + response.id + "] " + response.text
+        eventList.appendChild(newElement);
+    }
+
+    const evtSource2 = new EventSource("/jokes");
+    evtSource2.onmessage = function(event) {
+        const newElement = document.createElement("li");
+        const eventList = document.getElementById("jokes");
+        var response = JSON.parse(event.data);
+        newElement.innerHTML = "[" + response.id + "] " + response.text
+        eventList.appendChild(newElement);
+    }
+</script>
+
+</body>
+</html>
